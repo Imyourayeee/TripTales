@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TripTales — Explore More, Worry Less</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1e3a8a; --blue:#3b5bdb; --sky:#dceeff; --sky2:#eef7ff; --pink:#ef5f88;
+  --mint:#bff0e0; --mint-d:#147a5c; --text:#2b3a67; --green:#7cc66b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Nunito,system-ui,sans-serif;color:var(--text);background:#f9cfdc;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none}
+.page{max-width:1080px;margin:28px auto;background:var(--sky2);border-radius:20px;overflow:hidden;box-shadow:0 24px 60px rgba(30,58,138,.2);position:relative}
+.topbar{height:14px;background:#b8d4f5;display:flex;gap:6px;align-items:center;padding-left:14px}
+.topbar i{width:6px;height:6px;border-radius:50%;background:#f2c94c}
+
+/* clouds */
+.cloud{position:absolute;background:#fff;border-radius:50px;opacity:.9;animation:drift 40s linear infinite}
+.cloud::before,.cloud::after{content:"";position:absolute;background:#fff;border-radius:50%}
+.cloud::before{width:55%;height:160%;left:15%;top:-70%}
+.cloud::after{width:40%;height:130%;right:12%;top:-50%}
+@keyframes drift{from{transform:translateX(-40px)}to{transform:translateX(40px)}}
+.cloud.b{animation-direction:alternate;animation-duration:12s}
+
+.sky{position:relative;background:linear-gradient(#cfe5fb,#eaf5ff 70%);overflow:hidden}
+header{position:relative;z-index:2;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:20px 36px 14px}
+.icons{display:flex;gap:16px;justify-content:flex-end}
+.icon-btn{background:none;color:var(--navy);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;transition:.2s}
+.icon-btn:hover{background:#fff}
+.icon-btn svg{width:20px;height:20px}
+#heart.on svg{fill:var(--pink)}
+.logo{text-align:center}
+.logo h1{font-family:Mali;font-weight:700;font-size:44px;color:var(--navy);line-height:1}
+.logo p{font-family:Mali;color:var(--navy);margin-top:6px;font-size:15px}
+
+nav{position:relative;z-index:2;background:rgba(255,255,255,.55);backdrop-filter:blur(4px)}
+nav ul{list-style:none;display:flex;gap:40px;justify-content:center;align-items:center;padding:14px 20px;font-weight:800;font-size:13px;letter-spacing:.6px;color:var(--navy)}
+nav a:hover{color:var(--pink)}
+.pill{background:var(--pink);color:#fff;padding:9px 20px;border-radius:30px;font-weight:800;font-size:12px;letter-spacing:.8px;transition:.2s;display:inline-flex;gap:8px;align-items:center;box-shadow:0 4px 0 #d9466f}
+.pill:hover{transform:translateY(-2px)}
+#menuBtn{display:none}
+
+.polaroid{background:#fff;padding:12px 12px 46px;box-shadow:0 10px 24px rgba(30,58,138,.2);position:relative;width:200px}
+.polaroid::before{content:"";position:absolute;top:-12px;left:50%;width:70px;height:24px;background:rgba(246,206,160,.85);transform:translateX(-50%) rotate(-4deg)}
+.polaroid .ph{height:170px;display:grid;place-items:center;overflow:hidden}
+.polaroid .cap{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-family:Mali;color:var(--navy);font-size:17px}
+
+.hero{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1.3fr 1fr;align-items:center;padding:40px 30px 80px;gap:10px}
+.hero .left{transform:rotate(-7deg);justify-self:center}
+.hero .right{transform:rotate(6deg);justify-self:center}
+.hero h2{font-family:Mali;font-size:42px;color:var(--navy);text-align:center;line-height:1.2}
+.hero p{text-align:center;max-width:320px;margin:16px auto 22px}
+.center{text-align:center}
+.plane{position:absolute;top:14px;right:22%;font-size:46px;animation:fly 6s ease-in-out infinite;z-index:3}
+@keyframes fly{50%{transform:translate(18px,-10px) rotate(-6deg)}}
+.hills{position:absolute;bottom:-1px;left:0;right:0;height:70px;z-index:1}
+
+.sec-title{display:flex;align-items:center;justify-content:center;gap:10px;font-family:Mali;font-size:30px;color:var(--navy);margin:44px 0 24px}
+.carousel-wrap{position:relative;padding:0 50px}
+.carousel{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:6px 4px 16px}
+.carousel::-webkit-scrollbar{display:none}
+.card{flex:0 0 calc(25% - 12px);min-width:200px;background:#fff;border-radius:14px;padding:8px;scroll-snap-align:start;box-shadow:0 6px 16px rgba(30,58,138,.1);transition:.25s;cursor:pointer;text-align:left}
+.card:hover{transform:translateY(-6px);box-shadow:0 14px 26px rgba(30,58,138,.18)}
+.card .img{height:130px;border-radius:10px;display:grid;place-items:center;font-size:60px}
+.card h3{font-family:Mali;color:var(--navy);font-size:19px;margin:10px 4px 2px}
+.card .meta{font-size:13px;margin:0 4px;display:flex;gap:5px;align-items:center}
+.card .best{font-size:13px;margin:4px 4px 10px}
+.tag{display:block;width:max-content;margin:0 auto 6px;background:var(--mint);color:var(--mint-d);font-size:12px;font-weight:800;padding:5px 18px;border-radius:20px}
+.arrow{position:absolute;top:42%;width:38px;height:38px;border-radius:50%;background:var(--blue);color:#fff;font-size:18px;font-weight:800;z-index:2}
+.arrow.l{left:6px}.arrow.r{right:6px}
+
+.plan{position:relative;margin-top:40px;background:linear-gradient(#cfe5fb,#e6f3ff);padding:40px 30px 60px;overflow:hidden}
+.plan .sec-title{margin-top:0}
+.plan-grid{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2}
+.bubble{width:150px;height:130px;background:#fff;border-radius:60% 60% 55% 55%/65% 65% 45% 45%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-family:Mali;font-size:18px;color:var(--navy);box-shadow:0 8px 18px rgba(30,58,138,.12);transition:.25s}
+.bubble span{font-size:40px}
+.bubble:hover,.bubble.active{transform:translateY(-6px) scale(1.04);background:#fff6f9}
+.tip{max-width:620px;margin:26px auto 0;background:#fff;border-radius:16px;padding:18px 22px;position:relative;z-index:2;box-shadow:0 6px 16px rgba(30,58,138,.1);font-size:15px;line-height:1.6}
+.tip b{font-family:Mali;color:var(--navy);font-size:18px}
+.signpost{position:absolute;right:30px;top:20px;display:flex;flex-direction:column;align-items:center;z-index:1}
+.signpost div{background:#f4c08a;border:2px solid #b06f35;color:#7a3e10;font-family:Mali;font-size:14px;padding:3px 14px;border-radius:4px;margin:4px 0;box-shadow:0 2px 0 #b06f35}
+.signpost div:nth-child(2){transform:rotate(4deg)}
+.signpost i{width:10px;height:120px;background:#b06f35;border-radius:3px}
+.leaf{position:absolute;font-size:60px;z-index:1}
+
+.news{padding:50px;display:grid;grid-template-columns:auto 1fr auto;gap:40px;align-items:center;background:var(--sky2)}
+.news .polaroid{transform:rotate(-7deg)}
+.news h3{font-family:Mali;font-size:30px;color:var(--navy);text-align:center}
+.news p{text-align:center;margin:10px auto 22px;max-width:420px}
+form{display:flex;max-width:440px;margin:0 auto;border-radius:30px;overflow:hidden;box-shadow:0 6px 16px rgba(30,58,138,.15);background:#fff}
+form input{flex:1;border:none;padding:14px 18px;font-family:inherit;font-size:14px;outline:none}
+form button{background:var(--blue);color:#fff;font-weight:800;padding:0 26px;letter-spacing:.8px}
+.ok{text-align:center;margin-top:12px;font-family:Mali;color:var(--blue);min-height:22px}
+
+footer{position:relative;background:linear-gradient(#e6f3ff,#cfe5fb);padding:36px 30px 30px;text-align:center}
+footer ul{list-style:none;display:flex;gap:36px;justify-content:center;font-weight:800;font-size:13px;color:var(--navy)}
+.social{display:flex;gap:22px;justify-content:center;margin-top:18px}
+.social a{width:30px;height:30px;color:var(--navy);transition:.2s}
+.social a:hover{color:var(--pink);transform:scale(1.15)}
+.sign{position:absolute;right:40px;bottom:34px;font-family:Mali;color:var(--navy);transform:rotate(-8deg);font-size:18px}
+.mapicon{position:absolute;left:40px;bottom:24px;font-size:56px}
+
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(120px);background:var(--navy);color:#fff;padding:12px 22px;border-radius:30px;font-weight:700;transition:.35s;z-index:9;opacity:0}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(30,58,138,.35);display:none;place-items:center;z-index:8;padding:16px}
+.modal.open{display:grid}
+.modal .box{background:#fff;border-radius:20px;max-width:420px;width:100%;overflow:hidden;animation:pop .25s}
+@keyframes pop{from{transform:scale(.9);opacity:0}}
+.modal .img{height:150px;display:grid;place-items:center;font-size:80px}
+.modal .body{padding:20px 24px 24px}
+.modal h3{font-family:Mali;font-size:28px;color:var(--navy)}
+.modal ul{margin:10px 0 18px 18px;line-height:1.7}
+
+@media(max-width:820px){
+  .page{margin:0;border-radius:0}
+  header{padding:16px 18px;grid-template-columns:auto 1fr auto}
+  .logo h1{font-size:34px}
+  #menuBtn{display:grid}
+  nav ul{flex-direction:column;gap:16px;display:none}
+  nav.open ul{display:flex}
+  .hero{grid-template-columns:1fr;padding:40px 16px 80px}
+  .hero .left,.hero .right{display:none}
+  .hero h2{font-size:32px}
+  .card{flex:0 0 75%}
+  .carousel-wrap{padding:0 16px}
+  .arrow,.signpost,.leaf{display:none}
+  .bubble{width:140px}
+  .news{grid-template-columns:1fr;padding:40px 16px}
+  .news .polaroid{margin:0 auto}
+  .news > .cam{display:none}
+  footer ul{flex-wrap:wrap;gap:16px}
+  .sign,.mapicon{position:static;margin-top:14px;display:block}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="topbar"><i></i><i></i></div>
+
+  <div class="sky">
+    <div class="cloud" style="width:140px;height:40px;top:40px;left:4%"></div>
+    <div class="cloud b" style="width:110px;height:32px;top:190px;left:40%"></div>
+    <div class="cloud" style="width:160px;height:44px;top:110px;right:3%"></div>
+    <div class="cloud b" style="width:90px;height:26px;top:300px;left:20%"></div>
+
+    <header>
+      <button class="icon-btn" id="menuBtn" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <button class="icon-btn" aria-label="Search" onclick="toast('Search coming soon ✈️')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button>
+      <div class="logo">
+        <svg width="38" height="38" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#fff" stroke="#1e3a8a" stroke-width="3"/><path d="M20 8l4 12-4 12-4-12z" fill="#ef5f88"/><path d="M20 20l4 0-4 12z" fill="#1e3a8a"/><circle cx="20" cy="20" r="2" fill="#fff"/></svg>
+        <h1>TripTales</h1>
+        <p>Explore More, Worry Less ♡</p>
+      </div>
+      <div class="icons">
+        <button class="icon-btn" aria-label="Account" onclick="toast('Sign in coming soon ♡')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></button>
+        <button class="icon-btn" id="heart" aria-label="Favorites"><svg viewBox="0 0 24 24" fill="none" stroke="#ef5f88" stroke-width="2.2"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/></svg></button>
+      </div>
+    </header>
+
+    <nav id="nav">
+      <ul>
+        <li><a href="#">HOME</a></li>
+        <li><a href="#dest">DESTINATIONS</a></li>
+        <li><a href="#plan">TRAVEL TIPS</a></li>
+        <li><a href="#dest">ATTRACTIONS</a></li>
+        <li><a href="#news">ABOUT</a></li>
+        <li><a class="pill" href="#plan">PLAN YOUR TRIP</a></li>
+      </ul>
+    </nav>
+
+    <section class="hero">
+      <div class="plane">✈️</div>
+      <div class="polaroid left">
+        <div class="ph" style="background:linear-gradient(#bfe0ff,#f6e3c4)">
+          <svg width="170" height="160" viewBox="0 0 170 160">
+            <path d="M85 10l8 30h-16z" fill="#e0a43a"/>
+            <path d="M60 60l25-24 25 24z" fill="#c2552d"/><path d="M50 82l35-30 35 30z" fill="#d9692f"/>
+            <path d="M35 108l50-40 50 40z" fill="#c2552d"/>
+            <rect x="45" y="108" width="80" height="40" fill="#f0d29a"/>
+            <g fill="#a8471f"><rect x="58" y="116" width="10" height="32"/><rect x="80" y="116" width="10" height="32"/><rect x="102" y="116" width="10" height="32"/></g>
+            <rect x="20" y="146" width="130" height="14" fill="#7cc66b"/>
+          </svg>
+        </div>
+        <div class="cap">Bangkok ♡</div>
+      </div>
+
+      <div>
+        <h2>Find Your<br>Next Destination!</h2>
+        <p>Discover beautiful places, useful tips and real travel experiences ♡</p>
+        <div class="center"><a class="pill" href="#dest">EXPLORE NOW →</a></div>
+      </div>
+
+      <div class="polaroid right">
+        <div class="ph" style="background:linear-gradient(#9fd3ff 0 45%,#2ec4c4 45%)">
+          <svg width="170" height="160" viewBox="0 0 170 160">
+            <path d="M0 80C10 20 30 10 45 40c5-30 20-30 25 40z" fill="#4b8a4a"/>
+            <path d="M110 80c5-50 30-60 40-30 10-20 20 0 20 30z" fill="#3e7a3f"/>
+            <path d="M50 120h70l-10 12H62z" fill="#8a5a33"/>
+            <path d="M84 120V96" stroke="#5a3a20" stroke-width="3"/>
+            <path d="M84 96c6 2 10 6 14 12" stroke="#ef5f88" stroke-width="3" fill="none"/>
+            <path d="M20 140c20-6 40 6 60 0s40 6 60 0" stroke="#fff" stroke-width="2" fill="none" opacity=".7"/>
+          </svg>
+        </div>
+        <div class="cap">Krabi ♡</div>
+      </div>
+
+      <svg class="hills" viewBox="0 0 1080 70" preserveAspectRatio="none"><path d="M0 40C150 0 300 60 450 30s300-30 450 10 180 0 180 0v30H0z" fill="#eef7ff"/></svg>
+    </section>
+  </div>
+
+  <section id="dest">
+    <div class="sec-title"><svg width="26" height="30" viewBox="0 0 24 28"><path d="M12 2C6.5 2 2.5 6 2.5 11.5 2.5 18 12 26 12 26s9.5-8 9.5-14.5C21.5 6 17.5 2 12 2z" fill="none" stroke="#3b5bdb" stroke-width="2.5"/><circle cx="12" cy="11" r="3.5" fill="#3b5bdb"/></svg>Popular Destinations</div>
+    <div class="carousel-wrap">
+      <button class="arrow l" data-dir="-1" aria-label="Previous">‹</button>
+      <div class="carousel" id="carousel"></div>
+      <button class="arrow r" data-dir="1" aria-label="Next">›</button>
+    </div>
+  </section>
+
+  <section class="plan" id="plan">
+    <div class="leaf" style="left:-10px;bottom:10px">🌿</div>
+    <div class="leaf" style="left:120px;bottom:-14px">🌴</div>
+    <div class="signpost"><div>Explore</div><div>Discover</div><div>Enjoy ♡</div><i></i></div>
+    <div class="sec-title">Plan Your Trip</div>
+    <div class="plan-grid" id="planGrid"></div>
+    <div class="tip" id="tip"></div>
+  </section>
+
+  <section class="news" id="news">
+    <div class="polaroid">
+      <div class="ph" style="background:linear-gradient(#a7d8ff 0 40%,#2aa9d6 40%)">
+        <svg width="170" height="160" viewBox="0 0 170 160"><path d="M0 70c30-30 60-40 90-20s60 10 80 0v90H0z" fill="#5a9a4f"/><path d="M0 110c40-10 80 10 170-4v54H0z" fill="#1b8ab6" opacity=".7"/></svg>
+      </div>
+      <div class="cap">collect moments ♡</div>
+    </div>
+    <div>
+      <h3>Get travel inspiration!</h3>
+      <p>Discover new places, travel tips and must-visit spots, delivered to your inbox!</p>
+      <form id="sub"><input type="email" placeholder="Your email address" required aria-label="Email"><button type="submit">SUBSCRIBE</button></form>
+      <div class="ok" id="ok"></div>
+    </div>
+    <svg class="cam" width="110" height="100" viewBox="0 0 110 100"><rect x="10" y="26" width="90" height="62" rx="12" fill="#fff" stroke="#3b5bdb" stroke-width="4"/><rect x="34" y="14" width="30" height="14" rx="4" fill="none" stroke="#3b5bdb" stroke-width="4"/><circle cx="55" cy="57" r="20" fill="none" stroke="#3b5bdb" stroke-width="4"/><path d="M55 66s-9-5-9-11a4.5 4.5 0 0 1 9-1.5 4.5 4.5 0 0 1 9 1.5c0 6-9 11-9 11z" fill="#ef5f88"/></svg>
+  </section>
+
+  <footer>
+    <div class="mapicon">🗺️</div>
+    <ul><li><a href="#">HOME</a></li><li><a href="#dest">DESTINATIONS</a></li><li><a href="#plan">TRAVEL TIPS</a></li><li><a href="#dest">ATTRACTIONS</a></li><li><a href="#news">ABOUT</a></li></ul>
+    <div class="social">
+      <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+      <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 3h3c.3 2 1.6 3.4 4 3.6v3c-1.6 0-3-.5-4-1.2V15a6 6 0 1 1-6-6v3.2A2.8 2.8 0 1 0 14 15z"/></svg></a>
+      <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="#fff"/></svg></a>
+      <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M11 21l2-9M10 13c-1-3 1-6 4-5.5 2.5.4 2.5 4 .5 5.5-1 .7-2.4.4-2.8-.6"/></svg></a>
+    </div>
+    <div class="sign">Collect moments,<br>not things ♡</div>
+  </footer>
+</div>
+
+<div class="modal" id="modal"><div class="box"><div class="img" id="mImg"></div><div class="body"><h3 id="mTitle"></h3><div id="mBody"></div><button class="pill" onclick="closeModal()">CLOSE ♡</button></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const dests=[
+  {n:"Bangkok",t:"City Life",e:"🛕",best:"Nov – Feb",bg:"linear-gradient(#ffd9a8,#f2a65a)",do:["Wat Arun at sunset","Chatuchak Weekend Market","Chao Phraya boat ride","Street food in Yaowarat"]},
+  {n:"Chiang Mai",t:"Nature",e:"🌸",best:"Nov – Feb",bg:"linear-gradient(#ffd6e7,#f59ac0)",do:["Doi Suthep temple","Old City walls & night bazaar","Doi Inthanon hike","Khao soi for lunch"]},
+  {n:"Phuket",t:"Beaches",e:"🏖️",best:"Nov – Apr",bg:"linear-gradient(#9fe3ff,#26b5c9)",do:["Kata & Karon beaches","Old Phuket Town","Big Buddha viewpoint","Sunset at Promthep Cape"]},
+  {n:"Krabi",t:"Islands",e:"🚤",best:"Nov – Apr",bg:"linear-gradient(#a8f0e0,#2fb39a)",do:["4-island longtail tour","Railay Beach climbing","Emerald Pool","Ao Nang sunset"]},
+  {n:"Pai",t:"Mountains",e:"⛰️",best:"Oct – Feb",bg:"linear-gradient(#d8f2c4,#8cc865)",do:["Pai Canyon sunset","Hot springs","Bamboo bridge","Night walking street"]},
+  {n:"Ayutthaya",t:"History",e:"🏯",best:"Nov – Feb",bg:"linear-gradient(#f6e0c0,#d39b5c)",do:["Wat Mahathat Buddha head","Cycle the old city","Boat around the island","Boat noodles"]}
+];
+const pin='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3b5bdb" stroke-width="2.5"><path d="M12 21s-7-7-7-12a7 7 0 0 1 14 0c0 5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>';
+const car=document.getElementById('carousel');
+car.innerHTML=dests.map((d,i)=>`<button class="card" data-i="${i}"><div class="img" style="background:${d.bg}">${d.e}</div><h3>${d.n}</h3><div class="meta">${pin}Thailand</div><div class="best">🗓️ Best time: ${d.best}</div><span class="tag">${d.t}</span></button>`).join('');
+document.querySelectorAll('.arrow').forEach(b=>b.onclick=()=>car.scrollBy({left:b.dataset.dir*(car.clientWidth/2),behavior:'smooth'}));
+
+const modal=document.getElementById('modal');
+car.onclick=e=>{const c=e.target.closest('.card');if(!c)return;const d=dests[c.dataset.i];
+  document.getElementById('mImg').style.background=d.bg;document.getElementById('mImg').textContent=d.e;
+  document.getElementById('mTitle').textContent=d.n+' ♡';
+  document.getElementById('mBody').innerHTML=`<p>Best time to visit: <b>${d.best}</b></p><ul>${d.do.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+  modal.classList.add('open')};
+function closeModal(){modal.classList.remove('open')}
+modal.onclick=e=>{if(e.target===modal)closeModal()};
+
+const plans=[
+  {k:"Travel Tips",e:"🗺️",txt:"Carry a little cash for street food and tuk-tuks, dress modestly (cover shoulders & knees) at temples, and grab a local SIM or eSIM at the airport."},
+  {k:"Itineraries",e:"🧳",txt:"7 days idea: 2 days Bangkok → fly to Chiang Mai for 2 days → fly south to Krabi for 3 days of islands and beaches."},
+  {k:"Must-Visit",e:"📸",txt:"Wat Arun at golden hour, the Grand Palace, Doi Suthep, Railay Beach and a night market in every city you visit!"},
+  {k:"Budget Guide",e:"🧭",txt:"Backpacker: ~1,000–1,500 THB/day · Comfort: ~2,500–4,000 THB/day · Save by eating street food and taking trains or buses."}
+];
+const grid=document.getElementById('planGrid'),tip=document.getElementById('tip');
+grid.innerHTML=plans.map((p,i)=>`<button class="bubble" data-i="${i}"><span>${p.e}</span>${p.k}</button>`).join('');
+function showTip(i){grid.querySelectorAll('.bubble').forEach((b,j)=>b.classList.toggle('active',i==j));tip.innerHTML=`<b>${plans[i].e} ${plans[i].k}</b><br>${plans[i].txt}`}
+grid.onclick=e=>{const b=e.target.closest('.bubble');if(b)showTip(b.dataset.i)};
+showTip(0);
+
+const tEl=document.getElementById('toast');let tt;
+function toast(m){tEl.textContent=m;tEl.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>tEl.classList.remove('show'),2200)}
+document.getElementById('heart').onclick=e=>{e.currentTarget.classList.toggle('on');toast(e.currentTarget.classList.contains('on')?'Saved to favorites ♡':'Removed from favorites')};
+document.getElementById('menuBtn').onclick=()=>document.getElementById('nav').classList.toggle('open');
+document.getElementById('sub').onsubmit=e=>{e.preventDefault();document.getElementById('ok').textContent='Yay! See you in your inbox ✈️♡';e.target.reset()};
+</script>
+</body>
+</html>
